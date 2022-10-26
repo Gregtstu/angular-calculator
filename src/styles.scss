@@ -8,10 +8,11 @@
   box-sizing: inherit;
 }
 
-:root{
+html{
   --body-fon-color:rgba(255, 161, 161, 1);
-  --calculator-fon-color:linear-gradient(to top,rgba(40, 81, 142, 1), rgba(58, 119, 209, 1));
-  --button-hover-color:#F2F2F2;
+  --tablo-fon-color:#28518E;
+  --calculator-fon-color: linear-gradient(#28518E, #3A77D1);
+  --button-hover-color:#4b7bc1;
   --text-color:#FFFFFF;
   box-sizing: border-box;
 }
@@ -20,3 +21,16 @@ body{
   font-family: 'Geometria', sans-serif;
   background-color: var(--body-fon-color);
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input{
+  outline: none;
+  border: none;
+  outline-offset: 0;
+}
+
+
