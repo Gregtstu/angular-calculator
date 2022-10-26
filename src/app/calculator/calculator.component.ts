@@ -10,6 +10,7 @@ export class CalculatorComponent implements OnInit {
   public outputValue: number = 0;
   public firstNumber: string = '';
   public secondNumber: string = '';
+  public nextNumber: string = '';
   public operation!: any;
   public finish: boolean = false;
   public digit: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '00'];
@@ -38,7 +39,6 @@ export class CalculatorComponent implements OnInit {
     }
     if (this.digit.includes(num)) {
       if (this.firstNumber == '' && this.secondNumber == '' && this.operation == undefined) {
-        console.log('первое число')
         this.firstNumber = num;
       } else if (this.firstNumber != '' && this.operation == undefined) {
         this.firstNumber += num;
@@ -49,7 +49,6 @@ export class CalculatorComponent implements OnInit {
     }
 
     if (num == '=') {
-      this.inputValue = '';
       switch (this.operation) {
         case '+' :
           this.outputValue = +this.firstNumber + +this.secondNumber;
@@ -68,16 +67,16 @@ export class CalculatorComponent implements OnInit {
           this.outputValue = +((+this.firstNumber / 100) * +this.secondNumber).toFixed(9);
           break;
       }
-      this.firstNumber = '';
       this.secondNumber = '';
       this.operation = undefined;
+      this.inputValue = this.firstNumber =  String(this.outputValue);
     }
 
     if (num == '√') {
       this.outputValue = +(Math.sqrt(+this.firstNumber)).toFixed(9);
       this.firstNumber = '';
       this.operation = undefined;
-      this.inputValue = '';
+      this.inputValue = this.firstNumber =  String(this.outputValue);
     }
   }
 
