@@ -34,49 +34,41 @@ export class CalculatorComponent implements OnInit {
 
   getOperations(num: string) {
     this.inputValue += num;
-      if (this.action.includes(num)) {
-        this.operation = num;
+
+    if (this.action.includes(num)) {
+      this.operation = num;
+    }
+
+    if (this.digit.includes(num)) {
+      if (this.firstNumber == '' && this.secondNumber == '' && this.operation == undefined) {
+        this.firstNumber = num;
+        console.log('firstNumber [0] ='+ this.firstNumber)
+      } else if (this.firstNumber != '' && this.operation == undefined) {
+        this.firstNumber += num;
+        console.log('firstNumber [1] ='+ this.firstNumber)
+      } else if (this.firstNumber != '' && this.operation != undefined) {
+        this.secondNumber += num;
       }
-      if (this.digit.includes(num)) {
-        if (this.firstNumber == '' && this.secondNumber == '' && this.operation == undefined) {
-          this.firstNumber = num;
-        } else if (this.firstNumber != '' && this.operation == undefined) {
-          this.firstNumber += num;
-        } else if (this.firstNumber != '' && this.operation != undefined) {
-          this.secondNumber += num;
-        }
-      }
+    }
 
     if (num == '=') {
       this.math = this.getMathHandler();
-      this.outputValue = this.math(this.inputValue).slice(0, -1);
+      this.outputValue = this.firstNumber = this.math(this.inputValue).slice(0, -1);
       this.inputValue = this.outputValue;
-
-      //     switch (this.operation) {
-      //       case '+' :
-      //         this.outputValue = +this.firstNumber + +this.secondNumber;
-      //         console.log(this.firstNumber, +this.secondNumber)
-      //         break;
-      //       case '-' :
-      //         this.outputValue = +(+this.firstNumber - +this.secondNumber).toFixed(9);
-      //         break;
-      //       case 'x' :
-      //         this.outputValue = +(+this.firstNumber * +this.secondNumber).toFixed(9);
-      //         break;
-      //       case '/' :
-      //         this.outputValue = +(+this.firstNumber / +this.secondNumber).toFixed(9);
-      //         break;
-      //       case '%' :
-      //         this.outputValue = +((+this.firstNumber / 100) * +this.secondNumber).toFixed(9);
-      //         break;
+      switch (this.operation) {
+        case '%' :
+          this.firstNumber = this.firstNumber.replace(/\%.*/, '');
+          this.outputValue = String(((+this.secondNumber * 100) / +(this.firstNumber)) + '%');
+          break;
+      }
+      this.secondNumber = '';
+      this.operation = undefined;
+      this.inputValue  = String(this.outputValue);
     }
-    //     this.secondNumber = '';
-    //     this.operation = undefined;
-    //     this.inputValue = this.firstNumber = String(this.outputValue);
-    //   }
-    //
+
     if (num == '√') {
       console.log('√')
+      console.log(this.firstNumber)
       this.outputValue = String(+(Math.sqrt(+this.firstNumber)).toFixed(9));
       this.firstNumber = '';
       this.operation = undefined;
@@ -122,9 +114,6 @@ export class CalculatorComponent implements OnInit {
         }
 
         if (open === 0) {
-          // Привет, рекурсия!
-          // Показалось проще перезапускать функцию после каждой найденной скобки.
-          // При этом учитывая и вложенные скобки scope.slice(1, -1)
           return deepRemoveScopes(str.replace(scope, deepRemoveScopes(scope.slice(1, -1))));
         }
       }
@@ -136,8 +125,6 @@ export class CalculatorComponent implements OnInit {
       math_str = plus_minus(math_str);
 
       return math_str;
-
-      /***/
 
       function mul_div(math_str: string) {
         let length = (math_str.match(/\/|\*/g) || []).length;
@@ -152,9 +139,6 @@ export class CalculatorComponent implements OnInit {
           );
 
           math_str = autoCorrect(math_str);
-          // Строка не из миллиона символов, поэтому после каждой операции
-          // На всякий случай исправляется всё, что может пойти не так.
-          // В основном, "гасятся" знаки вида ++, +-, --
         }
 
         return math_str;
