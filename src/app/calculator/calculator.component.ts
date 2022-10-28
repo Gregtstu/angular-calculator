@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import * as events from "events";
 
 @Component({
@@ -22,7 +22,22 @@ export class CalculatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('hello')
   }
+
+  sayHello(name: any) {
+    return 'Hello' + ' ' + name;
+  }
+
+  giveLangCode() {
+    return ['ru', 'en', 'ua'];
+  }
+
+
+  onKeyDownNumber(event: any) {
+    console.log(event.key);
+  }
+
 
   clear() {
     this.firstNumber = '';
@@ -32,13 +47,14 @@ export class CalculatorComponent implements OnInit {
     this.outputValue = '0';
   }
 
-  onKeydown(event:any) {
+  onKeydown(event: any) {
     event.preventDefault();
     if (event.key === "Enter") {
       this.getOperations('=');
       console.log(this.inputValue)
     }
   }
+
   onKeyClear(event: any) {
     event.preventDefault();
     if (event.key == "Escape") {
@@ -57,7 +73,7 @@ export class CalculatorComponent implements OnInit {
     if (this.digit.includes(num)) {
       if (this.firstNumber == '' && this.secondNumber == '' && this.operation == undefined) {
         this.firstNumber = num;
-      }else if (this.firstNumber != '' && this.operation == undefined) {
+      } else if (this.firstNumber != '' && this.operation == undefined) {
         this.firstNumber += num;
       } else if (this.firstNumber != '' && this.operation != undefined) {
         this.secondNumber += num;
