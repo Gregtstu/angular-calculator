@@ -31,6 +31,7 @@
         font-size: 24px;
         font-weight: 500;
         line-height: 32px;
+        cursor: default;
       }
 
       .tablo__result {
@@ -70,7 +71,7 @@
         line-height: 80px;
         color: var(--text-color);
         cursor: pointer;
-        user-select: none;
+        //user-select: none;
       }
 
       .equal {

@@ -10,9 +10,12 @@
 <body>
 <div class="calculator">
 
-  <form class="calculator__display display">
-    <div class="display__tablo tablo">
-      <input class="tablo__operations" type="text" [(ngModel)]="inputValue" name="inputValue">
+  <form class="calculator__display display"
+        (keydown.enter)="onKeydown($event)"
+        (keydown.escape)="onKeyClear($event)"
+  >
+    <div class="display__tablo tablo" >
+      <input class="tablo__operations"  #video  type="text" [(ngModel)]="inputValue"  name="inputValue">
       <input class="tablo__result" type="text" [(ngModel)]="outputValue" name="outputValue" readonly>
     </div>
     <div class="display__buttons">

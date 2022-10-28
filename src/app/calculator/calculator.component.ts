@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import * as events from "events";
 
 @Component({
   selector: 'app-calculator',
@@ -14,7 +15,7 @@ export class CalculatorComponent implements OnInit {
   public operation!: any;
   public flagOperations: boolean = false;
   public digit: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '00'];
-  public action: string[] = ['-', '+', '/', 'x', '√', '%'];
+  public action: string[] = ['-', '+', '/', '*', '√', '%'];
   public math!: any;
 
   constructor() {
@@ -31,8 +32,22 @@ export class CalculatorComponent implements OnInit {
     this.outputValue = '0';
   }
 
+  onKeydown(event:any) {
+    event.preventDefault();
+    if (event.key === "Enter") {
+      this.getOperations('=');
+      console.log(this.inputValue)
+    }
+  }
+  onKeyClear(event: any) {
+    event.preventDefault();
+    if (event.key == "Escape") {
+      this.clear();
+    }
+  }
 
   getOperations(num: string) {
+
     this.inputValue += num;
 
     if (this.action.includes(num)) {
@@ -42,14 +57,14 @@ export class CalculatorComponent implements OnInit {
     if (this.digit.includes(num)) {
       if (this.firstNumber == '' && this.secondNumber == '' && this.operation == undefined) {
         this.firstNumber = num;
-        console.log('firstNumber [0] ='+ this.firstNumber)
-      } else if (this.firstNumber != '' && this.operation == undefined) {
+      }else if (this.firstNumber != '' && this.operation == undefined) {
         this.firstNumber += num;
-        console.log('firstNumber [1] ='+ this.firstNumber)
       } else if (this.firstNumber != '' && this.operation != undefined) {
         this.secondNumber += num;
       }
     }
+
+    console.log(this.firstNumber, this.operation, this.secondNumber);
 
     if (num == '=') {
       this.math = this.getMathHandler();
@@ -60,15 +75,15 @@ export class CalculatorComponent implements OnInit {
           this.firstNumber = this.firstNumber.replace(/\%.*/, '');
           this.outputValue = String(((+this.secondNumber * 100) / +(this.firstNumber)) + '%');
           break;
+          return;
       }
+
       this.secondNumber = '';
+      this.firstNumber = this.outputValue;
       this.operation = undefined;
-      this.inputValue  = String(this.outputValue);
     }
 
     if (num == '√') {
-      console.log('√')
-      console.log(this.firstNumber)
       this.outputValue = String(+(Math.sqrt(+this.firstNumber)).toFixed(9));
       this.firstNumber = '';
       this.operation = undefined;
