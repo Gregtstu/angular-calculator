@@ -22,7 +22,7 @@ export class CalculatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('hello')
+    // console.log('hello')
   }
 
   sayHello(name: any) {
